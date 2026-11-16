@@ -16,7 +16,7 @@ It is a single Python file with no build step. Run it again on every new mifi re
 
 | Preline theme (light / dark / mobile) | Turkish UI and language switch |
 |---|---|
-| ![Preline theme](docs/preview-preline.png) | ![Turkish UI](docs/preview-turkish.png) |
+| ![Preline theme](preview-preline.png) | ![Turkish UI](preview-turkish.png) |
 
 ---
 
