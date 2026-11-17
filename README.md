@@ -8,7 +8,10 @@
 - an optional **Turkish** translation with a language switch in the UI,
 - a clean **Preline-style theme** (built with Tailwind CSS, works offline),
 - **DD.MM.YYYY** date display,
-- a fix for **SMS deletion** on Marvell-based modems (ZTE MF286R).
+- a fix for **SMS deletion** on Marvell-based modems (ZTE MF286R),
+- stability helpers for low-RAM devices: automatic **zram swap**, lighter **adblock** defaults, DNS query logging off,
+- an **operator auto-selection guard** for modems that get stuck in manual network selection,
+- **Europe/Istanbul** as the default time zone.
 
 It is a single Python file with no build step. Run it again on every new mifi release to keep the same result.
 
@@ -16,7 +19,7 @@ It is a single Python file with no build step. Run it again on every new mifi re
 
 | Preline theme (light / dark / mobile) | Turkish UI and language switch |
 |---|---|
-| ![Preline theme](preview-preline.png) | ![Turkish UI](preview-turkish.png) |
+| ![Preline theme](docs/preview-preline.png) | ![Turkish UI](docs/preview-turkish.png) |
 
 ---
 
@@ -45,6 +48,14 @@ It is a single Python file with no build step. Run it again on every new mifi re
 - **SMS deletion on Marvell modems (ZTE MF286R):** the modem lists SIM messages starting at 1 but `AT+CMGD` counts from 0, so easyconfig failed to delete messages, or deleted the wrong one. The backend now sends the corrected index on Marvell modems with SIM storage. Other modems behave as before.
 - **Empty SMS list:** some modems answer `AT+CMGL` on an empty storage with an error that `sms_tool` waits 10 s for. The backend now checks the message count first and returns an empty list immediately.
 - **Browser cache:** asset URLs get a new version suffix, so browsers load the translated files instead of cached Polish ones.
+
+### Stability and defaults
+- **zram swap (auto-install):** the MF286R has ~117 MB RAM and no swap. While adblock processes its lists, free memory can drop to a few MB and the router can freeze. A boot script installs `zram-swap` from the firmware's own package feeds (which match the kernel of each build) once the internet is up, enables it, and clears the apk cache. It does nothing if zram-swap is already installed, so it re-installs automatically after every firmware update.
+- **Operator auto-selection guard:** some modems remember a manual network selection (`AT+COPS=1`) across reboots; after a signal loss they can stay stuck on another operator in limited service. A small background check switches the modem back to automatic selection (`AT+COPS=0`) every 5 minutes if needed and logs it as `operator-auto`.
+- **Defaults** (applied by mifi's first-boot scripts, so they also survive upgrades):
+  - time zone `Europe/Istanbul` instead of `Europe/Warsaw` (mifi resets the zone on every upgrade),
+  - DNS query logging **off** (it floods the log and the flash when a persistent log is used),
+  - adblock without the large Polish `certpl` feed, and its backup stored on flash (`/root/adblock-backup`) instead of RAM.
 
 ---
 
@@ -112,6 +123,9 @@ sudo python3 mifi_en.py *-sysupgrade.bin
 | `-o FILE` | output file name (single input only) |
 | `--no-theme` | do not add the Preline theme |
 | `--no-tr` | English only, no Turkish option |
+| `--no-zram` | do not add the zram auto-install |
+| `--no-operator-auto` | do not add the operator auto-selection guard |
+| `--no-defaults` | keep mifi's original time zone, DNS logging and adblock defaults |
 
 Arguments are always treated as inputs. The script refuses to overwrite an input file.
 
@@ -156,7 +170,7 @@ ssh root@192.168.1.1 "sysupgrade -v /tmp/fw.bin"
 1. Splits the image into the tar part and the `fwtool` metadata trailer.
 2. Extracts the root squashfs with `unsquashfs`.
 3. Translates JavaScript **string literals** and HTML **text nodes / attributes** with a longest-match phrase dictionary (word-boundary aware), so code and identifiers are never touched.
-4. Writes the English and Turkish copies, the theme and font, and patches the `rpcd` backend.
+4. Writes the English and Turkish copies, the theme and font, patches the `rpcd` backend, adds the zram and operator helper scripts, and adjusts mifi's first-boot defaults.
 5. Checks the generated JS (`node --check`), shell scripts (`sh -n`) and JSON.
 6. Rebuilds the squashfs with the original compression, block size and timestamp, rebuilds the tar, and re-attaches the metadata with the same CRC scheme as OpenWrt's `fwtool`.
 
@@ -174,4 +188,3 @@ ssh root@192.168.1.1 "sysupgrade -v /tmp/fw.bin"
 ## License
 
 MIT. The embedded Inter font is under the SIL Open Font License 1.1. Translated files remain part of easyconfig and keep its original license.
-
