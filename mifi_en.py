@@ -8,7 +8,11 @@ Kullanim (Linux / WSL, root yetkisiyle):
     sudo python3 mifi_en.py mifi-XX-...-sysupgrade.bin            (-> ...-sysupgrade-EN.bin)
     sudo python3 mifi_en.py mifi-XX-...-sysupgrade.bin -o cikti.bin
     sudo python3 mifi_en.py *-sysupgrade.bin                      (toplu: her biri icin ...-EN.bin)
-  Secenekler: --no-theme (Preline temasi eklenmez), --no-tr (Turkce eklenmez)
+  Secenekler: --no-theme (Preline temasi eklenmez), --no-tr (Turkce eklenmez),
+              --no-zram (zram-swap otomatik kurulumu eklenmez),
+              --no-operator-auto (operator secimi otomatige alma eklenmez),
+              --no-defaults (saat dilimi Istanbul, DNS gunlugu kapali, adblock
+                             certpl'siz ve yedegi flash'ta varsayilanlari uygulanmaz)
 
 Gerekenler: python3, squashfs-tools (unsquashfs, mksquashfs)
 Istege bagli: node (JS sozdizimi kontrolu), wordfreq (daha iyi Lehce tespiti)
@@ -674,6 +678,9 @@ HUAWEI = [
 ]
 
 LANG_TR = True  # Turkce dil secenegi; kapatmak icin --no-tr
+ZRAM = True  # zram-swap otomatik kurulumu; kapatmak icin --no-zram
+OPAUTO = True  # modem elle operator secimine takilirsa otomatige alma; --no-operator-auto
+DEFAULTS = True  # saat dilimi, DNS gunlugu, adblock varsayilanlari; --no-defaults
 THEME = True  # Preline (Tailwind) temasi; kapatmak icin --no-theme
 TW_CSS = '@font-face{font-family:Inter Variable;font-style:normal;font-display:swap;font-weight:100 900;src:url(/easyconfig/inter.woff2) format("woff2-variations");unicode-range:u+00??,u+0131,u+0152-0153,u+02bb-02bc,u+02c6,u+02da,u+02dc,u+0304,u+0308,u+0329,u+2000-206f,u+20ac,u+2122,u+2191,u+2193,u+2212,u+2215,u+feff,u+fffd}html{font-size:16px;-webkit-font-smoothing:antialiased}body{background-color:#f9fafb;font-family:Inter Variable,Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;font-size:.875rem;line-height:1.5rem;color:#1f2937}.container{max-width:64rem}#div_adblock,#div_clients,#div_clientslogs,#div_config,#div_gps,#div_networks,#div_nightmode,#div_queries,#div_security,#div_sitesurvey,#div_status,#div_system,#div_traffic,#div_ussdsms,#div_vpn,#div_watchdog,#div_wol{margin-bottom:2rem;border-radius:.75rem;border:1px solid #e5e7eb;background-color:#fff;padding:.25rem 1rem 1.5rem}@media (min-width:640px){#div_adblock,#div_clients,#div_clientslogs,#div_config,#div_gps,#div_networks,#div_nightmode,#div_queries,#div_security,#div_sitesurvey,#div_status,#div_system,#div_traffic,#div_ussdsms,#div_vpn,#div_watchdog,#div_wol{padding-left:1.75rem;padding-right:1.75rem}}#div_adblock,#div_clients,#div_clientslogs,#div_config,#div_gps,#div_networks,#div_nightmode,#div_queries,#div_security,#div_sitesurvey,#div_status,#div_system,#div_traffic,#div_ussdsms,#div_vpn,#div_watchdog,#div_wol{box-shadow:0 1px rgba(0,0,0,.05)}#div_content>.row:first-child h3{margin-top:1.5rem;margin-bottom:1.25rem}#system_hostname_label{font-size:1.25rem}#system_hostname_label,h3{line-height:1.75rem;font-weight:600;color:#1f2937}h3{font-size:1.125rem}h3.section{margin:1.75rem -1rem 1.25rem;border:solid #e5e7eb;border-width:0 0 1px;padding:0 1rem .875rem;font-size:1rem;line-height:1.5rem;font-weight:600;color:#1f2937}@media (min-width:640px){h3.section{margin-left:-1.75rem;margin-right:-1.75rem;padding-left:1.75rem;padding-right:1.75rem}}#div_config>div:first-child h3.section:first-child,#div_status>div:first-child h3.section:first-child{margin-top:1.25rem}hr{border-color:#e5e7eb}.form-text,.text-muted{font-size:.875rem;line-height:1.25rem;color:#6b7280}.text-danger{color:#dc2626}.control-label,.text-right{color:#6b7280}.click,.click:link,.click:visited,a{font-weight:500;color:#2563eb;text-decoration-line:none}.click:hover,a:focus,a:hover{color:#1d4ed8;text-decoration-line:underline;text-decoration-thickness:2px;text-underline-offset:2px;outline:2px solid transparent;outline-offset:2px}.btn{display:inline-block;border-radius:.5rem;border-width:1px;border-style:solid;padding:.5rem .75rem;text-align:center;font-size:.875rem;line-height:1.25rem;font-weight:500}.btn:active:focus,.btn:focus{outline:2px solid transparent;outline-offset:2px}.btn-default{border-color:#e5e7eb;background-color:#fff;color:#1f2937;box-shadow:0 1px rgba(0,0,0,.05)}.btn-default:active,.btn-default:focus,.btn-default:hover{border-color:#e5e7eb;background-color:#f9fafb;color:#1f2937}.btn-primary{border-color:transparent;background-color:#2563eb;color:#fff;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.btn-primary:active,.btn-primary:focus,.btn-primary:hover{border-color:transparent;background-color:#1d4ed8;color:#fff}.btn.disabled,.btn[disabled]{pointer-events:none;opacity:.5}#div_content>.row:first-child h3>.btn{padding:.625rem}.btn .icon-bar{background-color:#1f2937;width:16px}label{font-weight:500;color:#1f2937}.control-label{font-weight:400}.form-control{display:block;height:auto;width:100%;border-radius:.5rem;border:1px solid #e5e7eb;background-color:#fff;padding:.5rem .75rem;font-size:.875rem;line-height:1.25rem;color:#1f2937;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.form-control::-moz-placeholder{color:#9ca3af}.form-control::placeholder{color:#9ca3af}.form-control:focus{border-color:#3b82f6;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow);outline:2px solid transparent;outline-offset:2px;box-shadow:0 0 0 1px #3b82f6}.form-control[disabled],.form-control[readonly]{background-color:#f9fafb;color:#6b7280;opacity:1}select.form-control{padding-right:2.25rem}.form-group{margin-bottom:1rem}.checkbox label,.radio label{font-weight:400;color:#1f2937}input[type=checkbox],input[type=radio]{accent-color:#2563eb}.switch{width:52px;height:28px}.slider{border-radius:9999px;background-color:#e5e7eb;transition:.2s}.slider:before{background-color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.1);height:24px;width:24px;left:2px;bottom:2px;transition:.2s}input:checked+.slider{background-color:#2563eb}input:checked+.slider:before{transform:translateX(24px)}input:focus+.slider{box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(59,130,246,.4)}.rb .checkmark{border-radius:9999px;border:1px solid #d1d5db;background-color:#fff}.rb:hover input~.checkmark{background-color:#f9fafb}.rb input:checked~.checkmark{border-color:#2563eb;background-color:#2563eb}.sidenav{border:solid #e5e7eb;border-width:0 1px 0 0;background-color:#fff;padding-top:56px;box-shadow:0 10px 15px -3px rgba(0,0,0,.08)}.sidenav a{margin:.125rem .75rem;display:flex;align-items:center;border-radius:.5rem;padding:.5rem .625rem;font-size:.875rem;line-height:1.25rem;font-weight:400;color:#1f2937;text-decoration-line:none}.sidenav a:focus,.sidenav a:hover{background-color:#f3f4f6;color:#1f2937;text-decoration-line:none}.sidenav .iconwithtext{margin-right:.875rem;color:#6b7280;width:16px;height:16px}.sidenav .closebtn{position:absolute;top:.75rem;right:.75rem;left:auto;margin:0;width:2rem;height:2rem;justify-content:center;padding:0;font-size:1.5rem;line-height:2rem;color:#6b7280}.sidenav .closebtn:hover{background-color:#f3f4f6}.modal{background-color:rgba(17,24,39,.5)}.modal-content{max-width:48rem;overflow:hidden;border-radius:.75rem;border:1px solid #e5e7eb;background-color:#fff;padding:1.5rem;box-shadow:0 1px rgba(0,0,0,.05)}.alert{border-radius:.5rem;border-width:1px;border-style:solid;padding:1rem;font-size:.875rem;line-height:1.25rem}.alert-danger{border-color:#fecaca;background-color:#fef2f2;color:#991b1b}.alert-info{border-color:#bfdbfe;background-color:#eff6ff;color:#1e40af}.alert-warning{border-color:#fef08a;background-color:#fefce8;color:#854d0e}.progress{height:.5rem;overflow:hidden;border-radius:9999px;border-width:0;background-color:#e5e7eb}.progress,.progress-bar{--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.progress-bar{border-radius:9999px;background-color:#2563eb}.table{font-size:.875rem;line-height:1.25rem}.table,.table td{border-color:#e5e7eb}.tooltip{border-radius:.375rem;border-width:0;background-color:#111827;padding:.25rem .5rem;font-size:.75rem;line-height:1rem;font-weight:500;color:#fff;opacity:1;box-shadow:0 1px rgba(0,0,0,.05)}#div_login>.row{margin-left:auto;margin-right:auto;margin-top:2.5rem;max-width:48rem;border-radius:.75rem;border:1px solid #e5e7eb;background-color:#fff;padding:2.5rem 1rem}@media (min-width:640px){#div_login>.row{margin-top:6rem}}#div_login>.row{box-shadow:0 1px rgba(0,0,0,.05)}#div_login .wifi{color:#2563eb}#div_login label{margin-bottom:.5rem;font-size:.875rem;line-height:1.25rem;font-weight:500;color:#1f2937}.darkmode{background-color:#171717;color:#e5e5e5}.darkmode #div_adblock,.darkmode #div_clients,.darkmode #div_clientslogs,.darkmode #div_config,.darkmode #div_gps,.darkmode #div_login>.row,.darkmode #div_networks,.darkmode #div_nightmode,.darkmode #div_queries,.darkmode #div_security,.darkmode #div_sitesurvey,.darkmode #div_status,.darkmode #div_system,.darkmode #div_traffic,.darkmode #div_ussdsms,.darkmode #div_vpn,.darkmode #div_watchdog,.darkmode #div_wol{border-color:#404040;background-color:#262626;box-shadow:none}.darkmode #system_hostname_label,.darkmode h3,.darkmode h3.section{color:#e5e5e5}.darkmode h3.section,.darkmode hr{border-color:#404040}.darkmode .checkbox label,.darkmode .radio label,.darkmode label{color:#e5e5e5}.darkmode .control-label,.darkmode .text-right{color:#a3a3a3}.darkmode .form-text,.darkmode .text-muted{color:#737373}.darkmode .click,.darkmode a{color:#3b82f6!important}.darkmode .click:hover,.darkmode a:hover{color:#60a5fa!important}.darkmode .btn-default{border-color:#404040;background-color:#262626;color:#fff;box-shadow:none}.darkmode .btn-default:focus,.darkmode .btn-default:hover{background-color:#404040;color:#fff}.darkmode .btn-primary{border-color:transparent;background-color:#3b82f6;color:#fff}.darkmode .btn-primary:focus,.darkmode .btn-primary:hover{background-color:#2563eb}.darkmode .icon-bar{background-color:#e5e5e5}.darkmode .form-control{border-color:#404040;background-color:#171717;color:#e5e5e5}.darkmode .form-control::-moz-placeholder{color:#737373}.darkmode .form-control::placeholder{color:#737373}.darkmode .form-control:focus{border-color:#3b82f6}.darkmode .form-control[disabled],.darkmode .form-control[readonly]{background-color:#262626;color:#737373}.darkmode .slider{background-color:#404040}.darkmode .slider:before{background-color:#d4d4d4}.darkmode input:checked+.slider{background-color:#3b82f6!important}.darkmode input:checked+.slider:before{background-color:#fff}.darkmode input:focus+.slider{box-shadow:0 0 0 2px #262626,0 0 0 4px rgba(59,130,246,.4)}.darkmode .rb .checkmark{border-color:#525252;background-color:#262626}.darkmode .rb input:checked~.checkmark{background-color:#3b82f6!important;border-color:#3b82f6}.darkmode .rb .checkmark:after{background-color:#fff}.darkmode .modal{background-color:rgba(0,0,0,.7)}.darkmode .modal-content{color:#e5e5e5}.darkmode .modal-content,.darkmode .sidenav{border-color:#404040;background-color:#262626}.darkmode .sidenav a{color:#e5e5e5!important}.darkmode .sidenav a:focus,.darkmode .sidenav a:hover{background-color:#404040;color:#e5e5e5!important}.darkmode .sidenav .iconwithtext{color:#a3a3a3}.darkmode .sidenav .closebtn{color:#a3a3a3!important}.darkmode .alert-danger{border-color:#7f1d1d;color:#ef4444;background-color:rgba(153,27,27,.1)}.darkmode .alert-info{border-color:#1e3a8a;color:#3b82f6;background-color:rgba(30,64,175,.1)}.darkmode .alert-warning{border-color:#713f12;color:#eab308;background-color:rgba(133,77,14,.1)}.darkmode .progress{background-color:#404040}.darkmode .progress-bar{background-color:#3b82f6}.darkmode .table,.darkmode .table td{border-color:#404040}.darkmode .tooltip{background-color:#404040;color:#fff}.darkmode #div_login .wifi{color:#3b82f6}'
 # Inter Variable (latin, OFL lisansli) - Preline varsayilan yazi tipi
@@ -1298,6 +1305,22 @@ SMS_DELETE_NEW = '\t\t"delete")\n\t\t\tRES="Deleted message"\n\t\t\t# mifi_en: M
 SMS_RECV_OLD = '\t\t*)\n\t\t\tJOIN=$(uci -q get easyconfig.sms.join)\n\t\t\tSTORAGE=""\n\t\t\tT=$(uci -q get easyconfig.sms.storage)\n\t\t\t[ -n "$T" ] && STORAGE="-s $T"\n\t\t\tO=$(sms_tool -d $DEVICE $STORAGE -j -f "%Y%m%d%H%M%S" recv 2>/dev/null)\n\t\t\t[ -n "$O" ] && echo "$O" | sed \'s/"msg"/"join":\'${JOIN:-1}\',"msg"/;s/\\\\u0000//g\' || echo \'{"join":1,"msg":[]}\'\n\t\t\t;;\n'
 SMS_RECV_NEW = '\t\t*)\n\t\t\tJOIN=$(uci -q get easyconfig.sms.join)\n\t\t\tSTORAGE=""\n\t\t\tT=$(uci -q get easyconfig.sms.storage)\n\t\t\t[ -n "$T" ] && STORAGE="-s $T"\n\t\t\t# mifi_en: bos bellekte bazi modemler AT+CMGL\'e hata donuyor ve sms_tool\n\t\t\t# 10 sn zaman asimina kadar bekliyor; mesaj sayisi 0 ise listeyi hic okuma\n\t\t\tif [ -n "$T" ]; then\n\t\t\t\tC=$(sms_tool -d $DEVICE at "AT+CPMS=\\"$T\\"" 2>/dev/null | sed -n \'s/^+CPMS: \\([0-9]*\\),.*/\\1/p\')\n\t\t\telse\n\t\t\t\tC=$(sms_tool -d $DEVICE at \'AT+CPMS?\' 2>/dev/null | sed -n \'s/^+CPMS: "[A-Z]*",\\([0-9]*\\),.*/\\1/p\')\n\t\t\tfi\n\t\t\tif [ "$C" = "0" ]; then\n\t\t\t\techo \'{"join":\'${JOIN:-1}\',"msg":[]}\'\n\t\t\t\texit 0\n\t\t\tfi\n\t\t\tO=$(sms_tool -d $DEVICE $STORAGE -j -f "%Y%m%d%H%M%S" recv 2>/dev/null)\n\t\t\t[ -n "$O" ] && echo "$O" | sed \'s/"msg"/"join":\'${JOIN:-1}\',"msg"/;s/\\\\u0000//g\' || echo \'{"join":1,"msg":[]}\'\n\t\t\t;;\n'
 
+ZRAM_INIT = "#!/bin/sh /etc/rc.common\n# mifi_en: zram-swap kurulu degilse (orn. firmware guncellemesinden sonra)\n# internet gelince otomatik kurar ve baslatir.\nSTART=99\n\nstart() {\n\tapk list -I 2>/dev/null | grep -q '^zram-swap' && return 0\n\t/usr/libexec/zram-auto-install >/dev/null 2>&1 &\n}\n"
+ZRAM_INSTALL = '#!/bin/sh\n# mifi_en: zram-swap otomatik kurulum (en fazla ~60 dk internet bekler)\nmkdir /tmp/zram-auto.lock 2>/dev/null || exit 0\ntrap \'rmdir /tmp/zram-auto.lock\' EXIT\ni=0\nwhile [ $i -lt 60 ]; do\n\tif apk update >/dev/null 2>&1; then\n\t\tif apk add zram-swap >/dev/null 2>&1; then\n\t\t\t/etc/init.d/zram enable\n\t\t\t/etc/init.d/zram start\n\t\t\tlogger -t zram-auto "zram-swap kuruldu ve baslatildi"\n\t\t\trm -rf /var/cache/apk/* 2>/dev/null\n\t\telse\n\t\t\tlogger -t zram-auto "zram-swap kurulamadi (apk add hatasi)"\n\t\tfi\n\t\texit 0\n\tfi\n\ti=$((i + 1))\n\tsleep 60\ndone\nlogger -t zram-auto "internet gelmedi, zram-swap kurulamadi"\n'
+
+OPAUTO_INIT = '#!/bin/sh /etc/rc.common\n# mifi_en: modem elle operator secimine (AT+COPS=1) takilirsa otomatige (AT+COPS=0) alir.\nSTART=99\n\nstart() {\n\t/usr/libexec/operator-auto >/dev/null 2>&1 &\n}\n'
+OPAUTO_SCRIPT = '#!/bin/sh\n# mifi_en: 5 dakikada bir kontrol eder; modem elle secimdeyse otomatige alir.\nmkdir /tmp/operator-auto.lock 2>/dev/null || exit 0\nsleep 60\nwhile true; do\n\tDEV=$(/usr/share/easyconfig/modem/detect.sh 2>/dev/null)\n\tif [ -n "$DEV" ] && sms_tool -d "$DEV" at \'AT+COPS?\' 2>/dev/null | grep -q \'+COPS: 1,\'; then\n\t\tlogger -t operator-auto "modem elle secimde, otomatige aliniyor"\n\t\tsms_tool -d "$DEV" at \'AT+COPS=0\' >/dev/null 2>&1\n\tfi\n\tsleep 300\ndone\n'
+
+# mifi'nin ilk acilis betikleri ve varsayilan ayarlar icin duzeltmeler
+TZ_NAME, TZ_POSIX = 'Europe/Istanbul', '<+03>-3'
+EKO1_OLD = "uci set system.@system[0].zonename='Europe/Warsaw'\n"
+MIFI_GENERAL = [
+    ("uci set dhcp.@dnsmasq[0].logqueries=1\n", "uci set dhcp.@dnsmasq[0].logqueries=0\n"),
+    ("\tuci add_list adblock.global.adb_feed='certpl'\n",
+     "\tuci set adblock.global.adb_backupdir='/root/adblock-backup'\n"),
+]
+ADBLOCK_CONF = [("\tlist adb_feed 'certpl'\n", "")]
+
 DIA = re.compile('[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]')
 LIT = re.compile(r"'((?:[^'\\\n]|\\.)*)'|\"((?:[^\"\\\n]|\\.)*)\"")
 
@@ -1475,7 +1498,13 @@ def run(cmd):
 def main():
     if len(sys.argv) < 2:
         sys.exit(__doc__)
-    global THEME, LANG_TR
+    global THEME, LANG_TR, ZRAM, OPAUTO, DEFAULTS
+    if '--no-operator-auto' in sys.argv:
+        OPAUTO = False; sys.argv.remove('--no-operator-auto')
+    if '--no-defaults' in sys.argv:
+        DEFAULTS = False; sys.argv.remove('--no-defaults')
+    if '--no-zram' in sys.argv:
+        ZRAM = False; sys.argv.remove('--no-zram')
     if '--no-tr' in sys.argv:
         LANG_TR = False; sys.argv.remove('--no-tr')
     if '--no-theme' in sys.argv:
@@ -1576,6 +1605,40 @@ def process(src, dst):
         edit(w('www/luci-static/resources/view/easyconfig.js'), plain(LUCI))
         edit(w('www/easyconfig/def_clienttypeof.json'), plain(CLIENTTYPES))
         edit(w('usr/bin/huawei.sh'), plain(HUAWEI))
+        if OPAUTO and os.path.isdir(w('etc/init.d')):
+            os.makedirs(w('usr/libexec'), exist_ok=True)
+            for rel, body in (('etc/init.d/operator-auto', OPAUTO_INIT), ('usr/libexec/operator-auto', OPAUTO_SCRIPT)):
+                open(w(rel), 'w', encoding='utf-8').write(body); os.chmod(w(rel), 0o755)
+                r = subprocess.run(['sh', '-n', w(rel)], stderr=subprocess.PIPE, text=True)
+                if r.returncode: raise Fail('HATA: %s sozdizimi bozuk:\n%s' % (rel, r.stderr))
+            link = w('etc/rc.d/S99operator-auto')
+            if os.path.isdir(w('etc/rc.d')) and not os.path.lexists(link):
+                os.symlink('../init.d/operator-auto', link)
+        if DEFAULTS:
+            def need(path, pairs, label):
+                def f(t):
+                    for a, b in pairs:
+                        if a in t: t = t.replace(a, b)
+                        elif b not in t or not b: print('UYARI: %s icinde beklenen satir yok: %s' % (label, a.strip()))
+                    return t
+                if not edit(w(path), f): print('UYARI: %s bulunamadi' % path)
+            need('etc/uci-defaults/zz-eko1', [(EKO1_OLD, "uci set system.@system[0].zonename='%s'\nuci set system.@system[0].timezone='%s'\n" % (TZ_NAME, TZ_POSIX))], 'zz-eko1')
+            need('etc/uci-defaults/zzz-01-mifi-general', MIFI_GENERAL, 'zzz-01-mifi-general')
+            need('etc/config/adblock', ADBLOCK_CONF, 'adblock')
+            for rel in ('etc/uci-defaults/zz-eko1', 'etc/uci-defaults/zzz-01-mifi-general'):
+                if os.path.isfile(w(rel)):
+                    r = subprocess.run(['sh', '-n', w(rel)], stderr=subprocess.PIPE, text=True)
+                    if r.returncode: raise Fail('HATA: %s sozdizimi bozuk:\n%s' % (rel, r.stderr))
+        if ZRAM and os.path.isdir(w('etc/init.d')):
+            os.makedirs(w('usr/libexec'), exist_ok=True)
+            for rel, body in (('etc/init.d/zram-auto', ZRAM_INIT), ('usr/libexec/zram-auto-install', ZRAM_INSTALL)):
+                open(w(rel), 'w', encoding='utf-8').write(body); os.chmod(w(rel), 0o755)
+            link = w('etc/rc.d/S99zram-auto')
+            if os.path.isdir(w('etc/rc.d')) and not os.path.lexists(link):
+                os.symlink('../init.d/zram-auto', link)
+            for rel in ('etc/init.d/zram-auto', 'usr/libexec/zram-auto-install'):
+                r = subprocess.run(['sh', '-n', w(rel)], stderr=subprocess.PIPE, text=True)
+                if r.returncode: raise Fail('HATA: %s sozdizimi bozuk:\n%s' % (rel, r.stderr))
 
         # kontroller
         if shutil.which('node'):
